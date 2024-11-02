@@ -1,12 +1,14 @@
-package mypkgteste
+package emails
 
 import (
 	"log"
 	"os"
+
 	"github.com/wneessen/go-mail"
+	"quedasegura.com/m/v2/proto/convert"
 )
 
-func Send()  {
+func Send(info *convert.QuedaPayload)  {
     user := os.Getenv("EMAIL_USER")
 
     message := mail.NewMsg()
@@ -18,7 +20,7 @@ func Send()  {
 	}
 
     message.Subject("This is my first mail with go-mail!")
-	message.SetBodyString(mail.TypeTextPlain, "Do you like this mail? I certainly do!")
+	message.SetBodyString(mail.TypeTextPlain, info.MacAddr)
    
 	client, _ := mail.NewClient("smtp.gmail.com",
 		mail.WithSMTPAuth(mail.SMTPAuthPlain), mail.WithTLSPortPolicy(mail.TLSMandatory),

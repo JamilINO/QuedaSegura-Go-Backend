@@ -3,10 +3,13 @@ package queue
 import (
 	"context"
 	"log"
-	"time"
 	"os"
+	"time"
 
 	amqp "github.com/rabbitmq/amqp091-go"
+	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/types/known/timestamppb"
+	"quedasegura.com/m/v2/proto/convert"
 )
 
 func Send() {
@@ -30,7 +33,14 @@ func Send() {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	body := "Hello World!"
+	body := convert.QuedaPayload{
+		MacAddr: "da:0c:5e:d5:14:12",
+		Time: timestamppb.Now(),
+		Intensity: 0.5,
+	}
+
+	msg, _ := proto.Marshal(&body)
+
 	err = ch.PublishWithContext(ctx,
 		"",     // exchange
 		q.Name, // routing key
@@ -38,8 +48,8 @@ func Send() {
 		false,  // immediate
 		amqp.Publishing{
 			ContentType: "text/plain",
-			Body:        []byte(body),
+			Body:        msg,
 		})
 	failOnError(err, "Failed to publish a message")
-	log.Printf(" [x] Sent %s\n", body)
+	log.Printf(" [x] Sent %s\n", msg)
 }

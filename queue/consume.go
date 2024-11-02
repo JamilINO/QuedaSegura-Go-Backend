@@ -5,6 +5,9 @@ import (
 	"os"
 
 	amqp "github.com/rabbitmq/amqp091-go"
+	"google.golang.org/protobuf/proto"
+	"quedasegura.com/m/v2/emails"
+	"quedasegura.com/m/v2/proto/convert"
 )
 
 func failOnError(err error, msg string) {
@@ -47,7 +50,11 @@ func Consume() {
 
 	go func() {
 		for d := range msgs {
-			log.Printf("Received a message: %s", d.Body)
+			msg := convert.QuedaPayload{}
+			
+			proto.Unmarshal(d.Body, &msg)
+			emails.Send(&msg)
+			log.Printf("Received a message: %s", &msg)
 		}
 	}()
 
