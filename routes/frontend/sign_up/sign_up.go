@@ -4,10 +4,15 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+
 )
 
-func Index(ctx *gin.Context) {
+
+func SignUp(ctx *gin.Context)  {
+
+	
+
 	ctx.JSON(http.StatusOK, gin.H{
-		"ok": "world",
+		"ok": "hello",
 	})
 }
