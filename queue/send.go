@@ -12,7 +12,7 @@ import (
 	"quedasegura.com/m/v2/proto/convert"
 )
 
-func Send() {
+func Send(mac_addr string, unix_time uint32, itensity float32) {
 	conn, err := amqp.Dial(os.Getenv("RABBITMQ_STR"))
 	failOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
@@ -22,7 +22,7 @@ func Send() {
 	defer ch.Close()
 
 	q, err := ch.QueueDeclare(
-		"teste2", // name
+		"quedas", // name
 		true,   // durable
 		false,   // delete when unused
 		false,   // exclusive
@@ -34,9 +34,9 @@ func Send() {
 	defer cancel()
 
 	body := convert.QuedaPayload{
-		MacAddr: "da:0c:5e:d5:14:12",
-		Time: timestamppb.Now(),
-		Intensity: 0.5,
+		MacAddr: mac_addr,
+		Time: timestamppb.New(time.Unix(int64(unix_time), 0)),
+		Intensity: itensity,
 	}
 
 	msg, _ := proto.Marshal(&body)

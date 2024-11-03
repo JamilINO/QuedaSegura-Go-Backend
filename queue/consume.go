@@ -26,7 +26,7 @@ func Consume() {
 	defer ch.Close()
 
 	q, err := ch.QueueDeclare(
-		"teste2", // name
+		"quedas", // name
 		true,   // durable
 		false,   // delete when unused
 		false,   // exclusive

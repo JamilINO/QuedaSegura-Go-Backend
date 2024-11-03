@@ -1,6 +1,7 @@
 package emails
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -20,7 +21,8 @@ func Send(info *convert.QuedaPayload)  {
 	}
 
     message.Subject("This is my first mail with go-mail!")
-	message.SetBodyString(mail.TypeTextPlain, info.MacAddr)
+	str := fmt.Sprintf("MacAddr: %s\nDate: %s\nIntensity: %.2f", info.MacAddr, info.Time.AsTime(), info.Intensity)
+	message.SetBodyString(mail.TypeTextPlain, str)
    
 	client, _ := mail.NewClient("smtp.gmail.com",
 		mail.WithSMTPAuth(mail.SMTPAuthPlain), mail.WithTLSPortPolicy(mail.TLSMandatory),
