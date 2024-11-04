@@ -6,9 +6,8 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
-	//"database/sql"
-	"github.com/jackc/pgx/v5"
 
+	"quedasegura.com/m/v2/db"
 	"quedasegura.com/m/v2/queue"
 	"quedasegura.com/m/v2/routes/api/queda"
 	"quedasegura.com/m/v2/routes/frontend/sign_in"
@@ -18,22 +17,27 @@ import (
 
 func main() {
     
-	// urlExample := "postgres://username:password@localhost:5432/database_name"
-	conn, err := pgx.Connect(context.Background(), "postgres://postgres:postgres@localhost:5432/queda_segura")
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
-		os.Exit(1)
-	}
-	defer conn.Close(context.Background())
+    postgres := db.StartDB()
 
-	var name string
-	err = conn.QueryRow(context.Background(), "SELECT VERSION();").Scan(&name)
+    defer postgres.Close(context.Background())
+
+    var name string
+    var mac string
+    var uem string
+    var cem string
+	rows, err := postgres.Query(context.Background(), `SELECT Users.id, mac_adress, Users.email, Contacts.email FROM Devices 
+INNER JOIN Users ON Users.id = Devices.foreign_id 
+INNER JOIN Contacts ON Users.id = Contacts.foreign_id
+WHERE mac_adress='9e:9d:17:56:60:b0';`)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "QueryRow failed: %v\n", err)
 		os.Exit(1)
 	}
-
-    print(name)
+    for rows.Next(){
+        rows.Scan(&name, &mac, &uem, &cem)
+        fmt.Printf("\n\nName: %s\nMac: %s\nEmail1: %s\nEmail2: %s\n\n", name, mac, uem, cem)
+        
+    }
 
 	server := gin.Default()
     
