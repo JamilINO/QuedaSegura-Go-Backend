@@ -10,8 +10,7 @@ import (
 	"quedasegura.com/m/v2/db"
 	"quedasegura.com/m/v2/queue"
 
-
-    /* -- Rotas -- */
+	/* -- Rotas -- */
 
 	Queda "quedasegura.com/m/v2/routes/api/queda"
 

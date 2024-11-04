@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 	"quedasegura.com/m/v2/db"
+	"quedasegura.com/m/v2/routes/errors"
 )
 
 
@@ -38,9 +39,7 @@ func POST(ctx *gin.Context)  {
 	fmt.Printf(new_user.Name)
 
 	if new_user.Password != new_user.PasswordConfirm {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": "As senhas são diferentes",
-		})
+		middleware_error.Error(ctx, fmt.Errorf("password is different"), "As senhas são diferentes", http.StatusBadRequest)
 		return
 	}
 
@@ -48,25 +47,18 @@ func POST(ctx *gin.Context)  {
 
 	err := db.Postgres.QueryRow(context.Background(), `SELECT COUNT(1) FROM users WHERE email = $1`, new_user.Email).Scan(&user_exists)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"error": "algo deu errado erro no db",
-		})
+		middleware_error.Error(ctx, err, "algo deu errado erro no db", http.StatusInternalServerError)
 		return
 	}
 
 	if user_exists != 0 {
-		ctx.JSON(http.StatusConflict, gin.H{
-			"error": "user exists",
-		})
+		middleware_error.Error(ctx, fmt.Errorf("user exists"), "Usuário Existe", http.StatusConflict)
 		return
 	} 
 
 	hash, err := bcrypt.GenerateFromPassword([]byte(new_user.Password), 16)
 	if err != nil {
-		fmt.Printf("%s", err.Error())
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"error": "algo deu errado erro no hash",
-		})
+		middleware_error.Error(ctx, err, "algo deu errado erro no hash", http.StatusInternalServerError)
 		return
 	}
 	fmt.Printf("Hash: %s", string(hash))
@@ -81,9 +73,7 @@ func POST(ctx *gin.Context)  {
 	);`, new_user.Email, hash, new_user.Name)
 
 	if db_err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"error": "algo deu errado erro no db",
-		})
+		middleware_error.Error(ctx, db_err, "algo deu errado erro no db", http.StatusInternalServerError)
 		return
 	}
 

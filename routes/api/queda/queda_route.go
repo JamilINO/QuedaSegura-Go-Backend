@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"quedasegura.com/m/v2/queue"
+	middleware_error "quedasegura.com/m/v2/routes/errors"
 )
 
 type QuedaJsonPayload struct {
@@ -17,8 +18,7 @@ type QuedaJsonPayload struct {
 func POST(ctx *gin.Context) {
 	var json QuedaJsonPayload
 	if err := ctx.ShouldBindJSON(&json); err != nil {
-		print("error")
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		middleware_error.Error(ctx, err, "JSON Inválido", http.StatusBadRequest)
 		return
 	} else {
 		print(json.MacAddr)
