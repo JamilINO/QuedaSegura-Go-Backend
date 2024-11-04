@@ -63,6 +63,7 @@ INNER JOIN Contacts ON Users.id = Contacts.foreign_id
         }
 
         server.POST("/sign_up", SignUp.POST)
+        server.POST("/sign_in", SignIn.POST)
     }
 
 	go queue.Consume()

@@ -6,6 +6,12 @@
     <title>Hello Queda Segura</title>
 </head>
 <body>
-    <h1>Hello {{ .name }}</h1>
+    <form action="/sign_in" method="post">
+
+        <input type="email" name="email" placeholder="Email: " id="">
+        <input type="password" name="password" placeholder="Senha: " id="">
+
+        <input type="submit" value="Logar">
+    </form>
 </body>
 </html>

@@ -24,7 +24,6 @@ type User struct {
 	
 	Password string `form:"password" json:"password" xml:"password"  binding:"required"`
 	PasswordConfirm string `form:"password_confirm" json:"password_confirm" xml:"password_confirm"  binding:"required"`
-
 }
 
 func POST(ctx *gin.Context)  {
@@ -39,7 +38,7 @@ func POST(ctx *gin.Context)  {
 	fmt.Printf(new_user.Name)
 
 	if new_user.Password != new_user.PasswordConfirm {
-		middleware_error.Error(ctx, fmt.Errorf("password is different"), "As senhas são diferentes", http.StatusBadRequest)
+		middleware.Error(ctx, fmt.Errorf("password is different"), "As senhas são diferentes", http.StatusBadRequest)
 		return
 	}
 
@@ -47,18 +46,18 @@ func POST(ctx *gin.Context)  {
 
 	err := db.Postgres.QueryRow(context.Background(), `SELECT COUNT(1) FROM users WHERE email = $1`, new_user.Email).Scan(&user_exists)
 	if err != nil {
-		middleware_error.Error(ctx, err, "algo deu errado erro no db", http.StatusInternalServerError)
+		middleware.Error(ctx, err, "algo deu errado erro no db", http.StatusInternalServerError)
 		return
 	}
 
 	if user_exists != 0 {
-		middleware_error.Error(ctx, fmt.Errorf("user exists"), "Usuário Existe", http.StatusConflict)
+		middleware.Error(ctx, fmt.Errorf("user exists"), "Usuário Existe", http.StatusConflict)
 		return
 	} 
 
 	hash, err := bcrypt.GenerateFromPassword([]byte(new_user.Password), 16)
 	if err != nil {
-		middleware_error.Error(ctx, err, "algo deu errado erro no hash", http.StatusInternalServerError)
+		middleware.Error(ctx, err, "algo deu errado erro no hash", http.StatusInternalServerError)
 		return
 	}
 	fmt.Printf("Hash: %s", string(hash))
@@ -73,12 +72,10 @@ func POST(ctx *gin.Context)  {
 	);`, new_user.Email, hash, new_user.Name)
 
 	if db_err != nil {
-		middleware_error.Error(ctx, db_err, "algo deu errado erro no db", http.StatusInternalServerError)
+		middleware.Error(ctx, db_err, "algo deu errado erro no db", http.StatusInternalServerError)
 		return
 	}
 
 	fmt.Printf("\nThis user have email %d\n", user_exists)
 	ctx.Redirect(http.StatusFound, "/sign_in")
-
-
 }
