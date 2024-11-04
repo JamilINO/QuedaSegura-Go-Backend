@@ -62,6 +62,8 @@ INNER JOIN Contacts ON Users.id = Contacts.foreign_id
         api_group := server.Group("/api");{
             api_group.POST("", Queda.POST)
         }
+
+        server.POST("/sign_up", SignUp.POST)
     }
 
 	go queue.Consume()

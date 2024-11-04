@@ -8,7 +8,7 @@ import (
 
 
 func GET(ctx *gin.Context)  {
-	ctx.HTML(http.StatusOK, "index.html", gin.H{
+	ctx.HTML(http.StatusOK, "sign_in.html", gin.H{
 		"name": "Mateus",
 	})
 }
