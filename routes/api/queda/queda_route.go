@@ -14,7 +14,7 @@ type QuedaJsonPayload struct {
 	Itensity    float32 `form:"itensity" json:"itensity" xml:"itensity" binding:"required"`
 }
 
-func Queda(ctx *gin.Context) {
+func POST(ctx *gin.Context) {
 	var json QuedaJsonPayload
 	if err := ctx.ShouldBindJSON(&json); err != nil {
 		print("error")

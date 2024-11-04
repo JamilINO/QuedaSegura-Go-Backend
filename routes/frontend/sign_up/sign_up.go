@@ -8,8 +8,8 @@ import (
 )
 
 
-func SignUp(ctx *gin.Context)  {
-	ctx.JSON(http.StatusOK, gin.H{
-		"ok": "hello",
+func GET(ctx *gin.Context)  {
+	ctx.HTML(http.StatusOK, "sign_up.html", gin.H{
+		"hello": "world",
 	})
 }

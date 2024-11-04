@@ -7,8 +7,8 @@ import (
 )
 
 
-func SignIn(ctx *gin.Context)  {
-	ctx.JSON(http.StatusOK, gin.H{
-		"ok": "hello",
+func GET(ctx *gin.Context)  {
+	ctx.HTML(http.StatusOK, "index.html", gin.H{
+		"name": "Mateus",
 	})
 }
