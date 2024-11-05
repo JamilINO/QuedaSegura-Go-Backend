@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 var Postgres = StartDB()
 
-func StartDB () (*pgx.Conn){
+func StartDB () (*pgxpool.Pool){
 
 	db_url := os.Getenv("DB_URL")
 
@@ -19,7 +19,7 @@ func StartDB () (*pgx.Conn){
 	}
 
 	// urlExample := "postgres://username:password@localhost:5432/database_name"
-	instance, err := pgx.Connect(context.Background(), db_url)
+	instance, err := pgxpool.New(context.Background(), db_url)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to postgresect to database: %v\n", err)
 		os.Exit(1)

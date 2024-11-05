@@ -4,11 +4,15 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"os"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 	"quedasegura.com/m/v2/db"
-	"quedasegura.com/m/v2/routes/errors"
+	"quedasegura.com/m/v2/routes/middleware"
+
+	"github.com/golang-jwt/jwt/v5"
 )
 
 
@@ -18,17 +22,45 @@ type Login struct {
 }
 
 
+
 func GET(ctx *gin.Context)  {
-	ctx.HTML(http.StatusOK, "sign_in.html", gin.H{
+	cookie, _ := ctx.Cookie("token")
+
+	guard := middleware.Guard(ctx, cookie)
 		
+	if guard == false {
+		ctx.HTML(http.StatusOK, "sign_in.html", gin.H{
+		
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"ok": "ok",
 	})
 }
 
 func POST(ctx *gin.Context)  {
 	var user Login
 
-	ctx.ShouldBind(&user)
+	cookie, cookie_exits := ctx.Cookie("token")
 
+	if cookie_exits != nil {
+		fmt.Printf("Nenhum cookie encontrado!")
+	} else{
+		//validar cookie
+		fmt.Printf("\n\n\n\n%s\n\n\n\n", cookie)
+
+		guard := middleware.Guard(ctx, cookie)
+		
+		if guard == true {
+			ctx.Redirect(http.StatusPermanentRedirect, "/")
+			return
+		} 
+
+		fmt.Printf("\n\n\ntk: %s\n\n\n\n", guard)
+	}
+	ctx.ShouldBind(&user)
 
 	var hash []byte
 	err := db.Postgres.QueryRow(context.Background(), `
@@ -37,14 +69,33 @@ func POST(ctx *gin.Context)  {
 
 	if err != nil {
 		middleware.Error(ctx, err, "Erro do db", http.StatusInternalServerError)
+		return
 	}
 
 	ok := bcrypt.CompareHashAndPassword(hash, []byte(user.Password))
 
-	fmt.Printf("%s", ok)
+	if ok == nil{
+		tk := jwt.NewWithClaims(jwt.SigningMethodHS512, jwt.MapClaims{
+			"user": user.Email,
+			"exp": time.Now().Add(time.Hour).Unix(),
+		})
+	
+	
+		token, er := tk.SignedString([]byte(os.Getenv("TK_SECRET")))
+	
+	
+		fmt.Printf("Cookie: %s\nToken: %s\n Err: %s", cookie, token, er)
+	
+		ctx.SetCookie("token", token, 3600, "/", "", !gin.IsDebugging(), true)
 
-	ctx.JSON(http.StatusOK, gin.H{
-		"ok": hash,
-	})
+		ctx.JSON(http.StatusOK, gin.H{
+			"ok": hash,
+		})
+	} else{
+		middleware.Error(ctx, ok, "Usuário e/ou Senha Incorreta", http.StatusUnauthorized)
+		return
+	}
+
+
 
 }

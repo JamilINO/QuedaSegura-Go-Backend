@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 	"quedasegura.com/m/v2/db"
-	"quedasegura.com/m/v2/routes/errors"
+	"quedasegura.com/m/v2/routes/middleware"
 )
 
 
