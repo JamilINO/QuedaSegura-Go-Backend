@@ -26,7 +26,7 @@ type Login struct {
 func GET(ctx *gin.Context)  {
 	cookie, _ := ctx.Cookie("token")
 
-	guard := middleware.Guard(ctx, cookie)
+	guard, claims := middleware.Guard(ctx, cookie)
 		
 	if guard == false {
 		ctx.HTML(http.StatusOK, "sign_in.html", gin.H{
@@ -36,7 +36,7 @@ func GET(ctx *gin.Context)  {
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{
-		"user": "",
+		"user": claims,
 	})
 }
 
@@ -51,7 +51,7 @@ func POST(ctx *gin.Context)  {
 		//validar cookie
 		fmt.Printf("\n\n\n\n%s\n\n\n\n", cookie)
 
-		guard := middleware.Guard(ctx, cookie)
+		guard, _ := middleware.Guard(ctx, cookie)
 		
 		if guard == true {
 			ctx.Redirect(http.StatusPermanentRedirect, "/")
