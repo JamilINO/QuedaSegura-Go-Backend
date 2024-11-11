@@ -35,10 +35,14 @@ func Send(info *convert.QuedaPayload)  {
 	WHERE mac_adress = $1;
 	`, info.MacAddr)
 
+	if err != nil {
+		fmt.Printf(err.Error())
+	}
+
 	var contact_str = ""
 	for rows.Next() {
 		rows.Scan(&id, &email)
-		fmt.Printf()
+		fmt.Printf("\n\n\n\n%s\n\n\n\n", id)
 	}
 
 	fmt.Printf(contact_str)
