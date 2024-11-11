@@ -61,3 +61,8 @@ SELECT Users.id, mac_adress, Users.email, Contacts.email FROM Devices
 INNER JOIN Users ON Users.id = Devices.foreign_id 
 INNER JOIN Contacts ON Users.id = Contacts.foreign_id
 WHERE mac_adress='9e:9d:17:56:60:b9';
+
+
+SELECT Users.id, Contacts.email FROM Users
+INNER JOIN Contacts ON Users.id = Contacts.foreign_id
+WHERE Users.id = 'e28ca2cf-5266-4313-b6f6-4bf1d09d313b';

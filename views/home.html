@@ -7,5 +7,27 @@
 </head>
 <body>
     <h1>Bem-vindo {{ .user }}</h1>
+
+
+    <h3>Novo email</h3>
+
+    <form action="/api/new_contact" method="post">
+        <input type="email" name="email" id="email" required placeholder=" ">
+        <label for="email">Novo E-mail de Contato: </label>
+
+        <button type="submit" class="btn">Cadastrar</button>
+    </form>
+
+    <div></div>
+
+    <div>
+        {{ range .contacts }}
+            <div>
+                <strong>{{ .Id }}</strong>
+                <p>{{ .Email }}</p>
+            </div>
+        {{ end }}
+    </div>
+
 </body>
 </html>

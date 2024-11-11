@@ -12,6 +12,7 @@ import (
 
 	/* -- Rotas -- */
 
+	"quedasegura.com/m/v2/routes/api/contacts"
 	Queda "quedasegura.com/m/v2/routes/api/queda"
 
 	"quedasegura.com/m/v2/routes/frontend/home"
@@ -63,6 +64,7 @@ INNER JOIN Contacts ON Users.id = Contacts.foreign_id
     {
         api_group := server.Group("/api");{
             api_group.POST("", Queda.POST)
+            api_group.POST("/new_contact", contacts.POST)
         }
 
         server.POST("/sign_up", SignUp.POST)

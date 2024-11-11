@@ -61,9 +61,10 @@ func POST(ctx *gin.Context)  {
 	ctx.ShouldBind(&user)
 
 	var hash []byte
+	var id string
 	err := db.Postgres.QueryRow(context.Background(), `
-	SELECT pass FROM users WHERE email = $1;
-	`, user.Email).Scan(&hash)
+	SELECT id, pass FROM users WHERE email = $1;
+	`, user.Email).Scan(&id, &hash)
 
 	if err != nil {
 		middleware.Error(ctx, err, "Erro do db", http.StatusInternalServerError)
@@ -74,7 +75,7 @@ func POST(ctx *gin.Context)  {
 
 	if ok == nil{
 		tk := jwt.NewWithClaims(jwt.SigningMethodHS512, jwt.MapClaims{
-			"user": user.Email,
+			"user": id,
 			"exp": time.Now().Add(time.Hour).Unix(),
 		})
 	
