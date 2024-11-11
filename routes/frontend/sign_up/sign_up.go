@@ -77,5 +77,6 @@ func POST(ctx *gin.Context)  {
 	}
 
 	fmt.Printf("\nThis user have email %d\n", user_exists)
+	ctx.SetCookie("token", "", 0, "/", "", !gin.IsDebugging(), true)
 	ctx.Redirect(http.StatusFound, "/sign_in")
 }

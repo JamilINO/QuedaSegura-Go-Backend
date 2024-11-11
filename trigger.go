@@ -14,6 +14,7 @@ import (
 
 	Queda "quedasegura.com/m/v2/routes/api/queda"
 
+	"quedasegura.com/m/v2/routes/frontend/home"
 	SignIn "quedasegura.com/m/v2/routes/frontend/sign_in"
 	SignUp "quedasegura.com/m/v2/routes/frontend/sign_up"
 )
@@ -47,11 +48,13 @@ INNER JOIN Contacts ON Users.id = Contacts.foreign_id
 	server := gin.Default()
 
     server.LoadHTMLGlob("./views/*")
+    server.Static("/assets", "./assets")
 
 
     /* -- GET -- */
     
     {
+        server.GET("/", home.GET)
         server.GET("/sign_in", SignIn.GET)
         server.GET("/sign_up", SignUp.GET)
     }

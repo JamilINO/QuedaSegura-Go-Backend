@@ -1,20 +1,288 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>QuedaSegura - Cadastro</title>
+    <style>
+        /* Reset básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+		
+		/* Estilos da Navbar */
+        .navbar {
+            width: 100%;
+            background-color: #1c1c1c; /* Cor escura para combinar com o tema */
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .navbar .logo {
+            font-size: 1.2rem;
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            transition: transform 0.3s, filter 0.3s;
+        }
+
+        .navbar .logo:hover {
+            transform: scale(1.05);
+            filter: brightness(1.2);
+        }
+
+        .navbar .menu {
+            list-style: none;
+            display: flex;
+        }
+
+        .navbar .menu li {
+            margin-left: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar .menu li:hover {
+            transform: scale(1.1); /* Zoom no hover */
+        }
+
+        .navbar .menu li a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .navbar .menu li a:hover {
+            color: white;
+        }
+
+        /* Configuração de página */
+        body {
+            background: #f0f0f0;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-bottom: 40px; /* Espaço extra para o rodapé */
+        }
+
+        /* LOGO */
+        header {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            text-align: center;
+            background-color: #ffffff;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            font-size: 1.8rem;
+        }
+
+        header img {
+            width: 300px;
+            height: auto;
+            transition: transform 0.3s, filter 0.3s;
+        }
+
+        header img:hover {
+            transform: scale(1.05);
+            filter: brightness(1.2); /* Brilho na logo */
+        }
+
+        /* Conteúdo Principal */
+        .content {
+            width: 100%;
+            max-width: 600px;
+            padding: 3rem;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        /* Estilos específicos para cada aba */
+        .content h2 {
+            color: #000000; /* Nome cadastro */
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Formulário e Campos de Entrada */
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+            text-align: left;
+        }
+
+        .form-group label {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            font-size: 0.85rem;
+            color: #888;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            padding-left: 20px;
+            font-size: 1rem;
+            color: #333;
+            background: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group input:focus {
+            border-color: #000000;
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(135, 206, 235, 0.2);
+        }
+
+        .form-group input:focus + label,
+        .form-group input:not(:placeholder-shown) + label {
+            top: -10px;
+            font-size: 0.75rem;
+            color: #000000;
+        }
+
+        /* Botões */
+        .btn {
+            background: linear-gradient(135deg, #001CDB, #001CDB);
+            color: #ffffff;
+            padding: 0.8rem 2rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #001CDB, #001CDB);
+            box-shadow: 0 0 15px rgba(135, 206, 235, 0.5);
+            transform: scale(1.05);
+        }
+		
+		.btn:active {
+            animation: pulse 0.5s;
+        }
+		
+		/* Efeito de Pulso */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Efeito de brilho flutuante */
+        .btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
+            transition: 0.5s;
+            z-index: 0;
+        }
+		
+		.btn:hover::before {
+            left: 100%;
+        }
+
+        /* Footer */
+        footer {
+            width: 100%;
+            background-color: #1c1c1c;
+            color: #ddd;
+            padding: 10px 0;
+            text-align: center;
+            font-size: 0.9rem;
+            position: fixed;
+            bottom: 0;
+        }
+
+        .toggle-login {
+            color: #FFDE59;
+            font-size: 0.9rem;
+            cursor: pointer;
+			padding: 10px 0;
+            margin-bottom: 1rem;
+            display: block;
+            transition: color 0.3s ease;
+        }
+
+        .toggle-login:hover {
+            color: #001CDB;
+        }
+    </style>
 </head>
 <body>
-    <form action="/sign_up" method="post">
-        <input type="text" name="name" placeholder="Nome: " id="">
-        <input type="email" name="email" placeholder="email: " id="">
 
-        <input type="password" name="password" placeholder="Senha: " id="">
-        <input type="password" name="password_confirm" placeholder="Senha: " id="">
-        
+	<nav class="navbar">
+        <a href="#" class="logo">QuedaSegura</a>
+        <ul class="menu">
+            <li><a href="home.html">Home</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+    </nav>
+	
+    <header>
+        <img src="../assets/logo.png" alt="Logo QuedaSegura">
+    </header>
 
-        <input type="submit" value="Cadastrar">
-    </form>
+    <!-- Conteúdo de Cadastro -->
+    <div class="content active">
+        <h2>CADASTRO</h2>
+        <form id="auth-form" method="post" action="/sign_up">
+            <div class="form-group">
+                <input type="text" name="name" id="nome" required placeholder=" ">
+                <label for="nome">Nome Completo</label>
+            </div>
+            <div class="form-group">
+                <input type="email" name="email" id="email" required placeholder=" ">
+                <label for="email">E-mail</label>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" id="senha" required placeholder=" ">
+                <label for="senha">Senha</label>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password_confirm" id="confirmar-senha" required placeholder=" ">
+                <label for="confirmar-senha">Confirmar Senha</label>
+            </div>
+            <button type="submit" class="btn">Cadastrar</button>
+        </form>
+        <span class="toggle-login" onclick="toggleAuth()">Já possui conta? Faça login aqui.</span>
+    </div>
+
+    <!-- Rodapé -->
+    <footer>Copyright &copy; QuedaSegura 2024. Todos os direitos reservados.</footer>
+
+    <script>
+        function toggleAuth() {
+            window.location.href = "login.html"; // Redireciona para a página de login
+        }
+    </script>
+
 </body>
 </html>

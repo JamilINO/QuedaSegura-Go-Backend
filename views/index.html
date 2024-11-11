@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuedaSegura - Home</title>
+    <style>
+        /* Reset básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+		
+		/* Estilos da Navbar */
+        .navbar {
+            width: 100%;
+            background-color: #1c1c1c; /* Cor escura para combinar com o tema */
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .navbar .logo {
+            font-size: 1.2rem;
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            transition: transform 0.3s, filter 0.3s;
+        }
+
+        .navbar .logo:hover {
+            transform: scale(1.05);
+            filter: brightness(1.2);
+        }
+
+        .navbar .menu {
+            list-style: none;
+            display: flex;
+        }
+
+        .navbar .menu li {
+            margin-left: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar .menu li:hover {
+            transform: scale(1.1); /* Zoom no hover */
+        }
+
+        .navbar .menu li a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .navbar .menu li a:hover {
+            color: white;
+        }
+		
+        /* Configuração de página */
+        body {
+            background: #f0f0f0;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-bottom: 40px; /* Espaço extra para o rodapé */
+        }
+
+        /* LOGO */
+        header {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            text-align: center;
+            background-color: #ffffff;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            font-size: 1.8rem;
+        }
+
+        header img {
+            width: 300px;
+            height: auto;
+            transition: transform 0.3s, filter 0.3s;
+        }
+
+        header img:hover {
+            transform: scale(1.05);
+            filter: brightness(1.2); /* Brilho na logo */
+        }
+
+        /* Conteúdo Principal */
+        .content {
+            width: 100%;
+            max-width: 600px;
+            padding: 3rem;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        /* Estilos específicos para cada aba */
+        .content h2 {
+            color: #000000;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .content p {
+            color: #555;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            width: 100%;
+            background-color: #1c1c1c;
+            color: #ddd;
+            padding: 10px 0;
+            text-align: center;
+            font-size: 0.9rem;
+            position: fixed;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="#" class="logo">QuedaSegura</a>
+        <ul class="menu">
+            <!--<li><a href="/">Home</a></li>-->
+            <li><a href="/sign_in">Login </a></li>
+            <li><a href="/sign_up">Cadastro</a></li>
+        </ul>
+    </nav>
+	
+    <header>
+        <img src="../assets/logo.png" alt="Logo QuedaSegura">
+    </header>
+
+    <!-- Conteúdo da Home -->
+    <div id="home" class="content active">
+        <h2>Bem-vindo ao QuedaSegura</h2>
+        <p>O QuedaSegura é uma solução inovadora para monitoramento de quedas em idosos, garantindo segurança e auxílio rápido em emergências.</p>
+    </div>
+
+    <!-- Rodapé -->
+    <footer>Copyright &copy; QuedaSegura 2024. Todos os direitos reservados.</footer>
+
+</body>
+</html>
