@@ -24,10 +24,54 @@
         {{ range .contacts }}
             <div>
                 <strong>{{ .Id }}</strong>
-                <p>{{ .Email }}</p>
+
+                <form action="/api/update_contact" method="post">
+                    <input type="hidden" name="contact_id" value="{{ .Id }}" required>
+                    <input type="text" name="email" value="{{ .Email }}" required>
+                    <input type="submit" value="Alter Contact">
+                </form>
+
+                <form action="/api/delete_contact" method="post">
+                    <input type="hidden" name="contact_id" value="{{ .Id }}" required>
+                    <input type="submit" value="Delete Contact">
+                </form>
             </div>
         {{ end }}
     </div>
+
+
+    <hr>
+
+
+    <form action="/api/new_device" method="post">
+        <input type="mac_addr" name="mac_addr" id="mac_addr" required placeholder=" ">
+        <label for="device">Novo Dispositivo: </label>
+
+        <button type="submit" class="btn">Cadastrar</button>
+    </form>
+
+    <div>
+    {{ range .devices }}
+        <div>
+            <strong>{{ .Id }}</strong>
+            <p>{{ .MacAddr }}</p>
+
+            <form action="/api/update_device" method="post">
+                <input type="hidden" name="device_id" value="{{ .Id }}" required>
+                <input type="text" name="mac_addr" value="{{ .MacAddr }}" required>
+                <input type="submit" value="Alter device">
+            </form>
+
+            <form action="/api/delete_device" method="post">
+                <input type="hidden" name="device_id" value="{{ .Id }}" required>
+                <input type="submit" value="Delete device">
+            </form>
+        </div>
+    {{ end }}
+    </div>
+
+
+
 
 </body>
 </html>

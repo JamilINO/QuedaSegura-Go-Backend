@@ -2,6 +2,7 @@ package home
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -12,6 +13,11 @@ import (
 type Contact struct {
 	Id string
 	Email string 
+}
+
+type Device struct {
+	Id string
+	MacAddr string
 }
 
 func GET(ctx *gin.Context)  {
@@ -26,7 +32,7 @@ func GET(ctx *gin.Context)  {
 		return
 	}
 
-
+	/* -- Inicia READ Contatos -- */
 	var id string
 	var email string
 
@@ -50,12 +56,42 @@ func GET(ctx *gin.Context)  {
 		middleware.Error(ctx, err, "Erro do db", http.StatusInternalServerError)
 		return
 	}
+	/* -- Encerra READ Contatos -- */
 
-	
+
+	/* -- Inicia READ Devices -- */
+
+	var devices_arr []Device
+
+	var device_id string
+	var mac_addr string
+	dev_rows, dev_err := db.Postgres.Query(context.Background(), `
+	SELECT mac_adress, Devices.id FROM Devices 
+	INNER JOIN Users ON Users.id = Devices.foreign_id 
+	WHERE Users.id = $1;
+	`, user)
+
+	for dev_rows.Next() {
+		dev_rows.Scan(&mac_addr, &device_id)
+		devices_arr = append(devices_arr, Device{
+			Id: device_id,
+			MacAddr: mac_addr,
+		})
+
+		fmt.Printf("Mac: %s\n\n", mac_addr)
+
+	}
+	if dev_err != nil {
+		middleware.Error(ctx, err, "Erro do db", http.StatusInternalServerError)
+		return
+	}
+
+	/* -- Encerra READ Devices -- */
 
 	ctx.HTML(http.StatusOK, "home.html", gin.H{
 		"user": user,
 		"contacts": contact_arr,
+		"devices": devices_arr,
 		"date": date,
 	})
 }

@@ -1,4 +1,4 @@
-package contacts
+package devices
 
 import (
 	"context"
@@ -9,9 +9,9 @@ import (
 	"quedasegura.com/m/v2/routes/middleware"
 )
 
-type NewContact struct {
-	TargetId string `form:"contact_id" json:"contact_id" xml:"contact_id" `
-	TargetEmail string `form:"email" json:"email" xml:"email"  binding:"required"`
+type NewDevice struct {
+	TargetId string `form:"device_id" json:"device_id" xml:"device_id" `
+	TargetDevice string `form:"mac_addr" json:"mac_addr" xml:"mac_addr"  binding:"required"`
 }
 
 func POST(ctx *gin.Context)  {
@@ -24,51 +24,50 @@ func POST(ctx *gin.Context)  {
 		return
 	}
 
-	var contact NewContact
+	var device NewDevice
 
-	ctx.ShouldBind(&contact)
+	ctx.ShouldBind(&device)
 
 
 	db.Postgres.QueryRow(context.Background(), `
-	INSERT INTO Contacts (id, foreign_id, email)
+	INSERT INTO Devices(id, foreign_id, mac_adress)
 	VALUES (
-		gen_random_uuid(),
+		gen_random_uuid (),
 		$1,
-		$2 
-	)
-	`, user, contact.TargetEmail)
+		$2
+	);
+	`, user, device.TargetDevice)
 	
 
 	ctx.Redirect(http.StatusMovedPermanently, "/")
 }
 
-
 func UPDATE(ctx *gin.Context)  {
 	cookie, _ := ctx.Cookie("token")
 
-	guard, _, _:= middleware.Guard(ctx, cookie)
+	guard, _, _ := middleware.Guard(ctx, cookie)
 		
 	if guard == false {
 		ctx.Redirect(http.StatusUnauthorized,"/sign_in")
 		return
 	}
 
-	var contact NewContact
+	var device NewDevice
 
-	ctx.ShouldBind(&contact)
+	ctx.ShouldBind(&device)
 
 
 	db.Postgres.QueryRow(context.Background(), `
-	UPDATE contacts SET email = $1 WHERE id = $2;
-	`, contact.TargetEmail, contact.TargetId)
+	UPDATE devices SET mac_adress = $1 WHERE id = $2;
+	`, device.TargetDevice, device.TargetId)
+	
 
 	ctx.Redirect(http.StatusMovedPermanently, "/")
 }
 
 
-
-type ContactId struct {
-	TargetId string `form:"contact_id" json:"contact_id" xml:"contact_id"  binding:"required"`
+type DeviceId struct {
+	TargetId string `form:"device_id" json:"device_id" xml:"device_id"  binding:"required"`
 }
 
 func DELETE(ctx *gin.Context)  {
@@ -81,14 +80,14 @@ func DELETE(ctx *gin.Context)  {
 		return
 	}
 
-	var contact_id ContactId
+	var device_id DeviceId
 
-	ctx.ShouldBind(&contact_id)
+	ctx.ShouldBind(&device_id)
 
 
 	db.Postgres.QueryRow(context.Background(), `
-	DELETE FROM contacts WHERE id = $1;
-	`, contact_id.TargetId)
+	DELETE FROM devices WHERE id = $1;
+	`, device_id.TargetId)
 
 	ctx.Redirect(http.StatusMovedPermanently, "/")
 }

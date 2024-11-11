@@ -13,6 +13,7 @@ import (
 	/* -- Rotas -- */
 
 	"quedasegura.com/m/v2/routes/api/contacts"
+	"quedasegura.com/m/v2/routes/api/devices"
 	Queda "quedasegura.com/m/v2/routes/api/queda"
 
 	"quedasegura.com/m/v2/routes/frontend/home"
@@ -65,6 +66,15 @@ INNER JOIN Contacts ON Users.id = Contacts.foreign_id
         api_group := server.Group("/api");{
             api_group.POST("", Queda.POST)
             api_group.POST("/new_contact", contacts.POST)
+            api_group.POST("/update_contact", contacts.UPDATE)
+            api_group.POST("/delete_contact", contacts.DELETE)
+            api_group.POST("/new_device", devices.POST)
+            api_group.POST("/update_device", devices.UPDATE)
+            api_group.POST("/delete_device", devices.DELETE)
+
+            /* -- DELETE -- */
+            api_group.DELETE("/delete_contact", contacts.DELETE)
+            api_group.DELETE("/delete_device", devices.DELETE)
         }
 
         server.POST("/sign_up", SignUp.POST)
