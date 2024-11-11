@@ -82,3 +82,13 @@ INNER JOIN Users ON Users.id = Devices.foreign_id
 WHERE Users.id = 'a7ef7d38-0a71-4064-89be-accd6e35e4c4';
 
 UPDATE devices SET mac_adress = 'aa:aa:aa:aa:aa:aa' WHERE id = '4633e003-af3d-4e17-b1e3-ed819fb7c8db';
+
+
+
+
+-- EMAIL SENDER:
+
+SELECT Contacts.email FROM Devices 
+INNER JOIN Users ON Users.id = Devices.foreign_id 
+INNER JOIN Contacts ON Users.id = Contacts.foreign_id
+WHERE mac_adress='9e:9d:17:56:60:b9';

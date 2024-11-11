@@ -4,10 +4,13 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"context"
 
 	"github.com/wneessen/go-mail"
+	"quedasegura.com/m/v2/db"
 	"quedasegura.com/m/v2/proto/convert"
 )
+
 
 func Send(info *convert.QuedaPayload)  {
     user := os.Getenv("EMAIL_USER")
@@ -21,7 +24,33 @@ func Send(info *convert.QuedaPayload)  {
 	if err := message.From(user); err != nil {
 		log.Fatalf("failed to set From address: %s", err)
 	}
-	if err := message.To(user); err != nil {
+
+	var id string
+	var email string
+
+	rows, err := db.Postgres.Query(context.Background(), `
+	SELECT Contacts.email FROM Devices 
+	INNER JOIN Users ON Users.id = Devices.foreign_id 
+	INNER JOIN Contacts ON Users.id = Contacts.foreign_id
+	WHERE mac_adress = $1;
+	`, info.MacAddr)
+
+	var contact_str = ""
+	for rows.Next() {
+		rows.Scan(&id, &email)
+		fmt.Printf()
+	}
+
+	fmt.Printf(contact_str)
+
+	if err != nil {
+		fmt.Errorf("Erro no DB worker")
+		return
+	}
+
+
+
+	if err := message.ToFromString(contact_str); err != nil {
 		log.Fatalf("failed to set To address: %s", err)
 	}
 
