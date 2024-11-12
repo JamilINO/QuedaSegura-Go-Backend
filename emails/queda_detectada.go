@@ -2,7 +2,7 @@ package emails
 
 import (
 	"context"
-	"encoding/base64"
+	//"encoding/base64"
 	"fmt"
 	"html/template"
 	"log"
@@ -14,8 +14,7 @@ import (
 )
 
 type HtmlProps struct{
-	txt string;
-	infos convert.QuedaPayload;
+	info convert.QuedaPayload;
 	logo string;
 }
 
@@ -60,7 +59,7 @@ func Send(info *convert.QuedaPayload)  {
     message.Subject(fmt.Sprintf("Alerta de Queda às %d:%d:%d no dia %d/%d/%d", target_time.Hour(),target_time.Minute(), target_time.Second(), target_time.Day(), target_time.Month(), target_time.Year()))
 
 	template_file, err := os.ReadFile("./assets/queda_template.html")
-
+	
 	if err != nil {
 		fmt.Printf(err.Error())
 	}
@@ -77,14 +76,11 @@ func Send(info *convert.QuedaPayload)  {
 		fmt.Printf(err.Error())
 	}
 
-	base_img := base64.StdEncoding.EncodeToString(img)
+	//base_img
 
-	//a := fmt.Sprintf(info.MacAddr)
+	fmt.Printf(string(img))
 
-	tmpl_err := message.SetBodyHTMLTemplate(html, HtmlProps{
-		txt: "hello",
-		logo: base_img,
-	})
+	tmpl_err := message.SetBodyHTMLTemplate(html, info)
    
 	//message.AttachFile("./assets/logo.png")
 
