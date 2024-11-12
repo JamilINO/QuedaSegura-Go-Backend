@@ -1,15 +1,23 @@
 package emails
 
 import (
+	"context"
+	"encoding/base64"
 	"fmt"
+	"html/template"
 	"log"
 	"os"
-	"context"
 
 	"github.com/wneessen/go-mail"
 	"quedasegura.com/m/v2/db"
 	"quedasegura.com/m/v2/proto/convert"
 )
+
+type HtmlProps struct{
+	txt string;
+	infos convert.QuedaPayload;
+	logo string;
+}
 
 
 func Send(info *convert.QuedaPayload)  {
@@ -48,10 +56,43 @@ func Send(info *convert.QuedaPayload)  {
 
 	//fmt.Print("\n\n\nEntered Here\n\n\n")
 
-    message.Subject("This is my first mail with go-mail!")
-	str := fmt.Sprintf("MacAddr: %s\nDate: %s\nIntensity: %.2f", info.MacAddr, info.Time.AsTime(), info.Intensity)
-	message.SetBodyString(mail.TypeTextPlain, str)
+	target_time := info.Time.AsTime()
+    message.Subject(fmt.Sprintf("Alerta de Queda às %d:%d:%d no dia %d/%d/%d", target_time.Hour(),target_time.Minute(), target_time.Second(), target_time.Day(), target_time.Month(), target_time.Year()))
+
+	template_file, err := os.ReadFile("./assets/queda_template.html")
+
+	if err != nil {
+		fmt.Printf(err.Error())
+	}
+
+	img, err := os.ReadFile("./assets/logo.png")
+
+	if err != nil {
+		fmt.Printf(err.Error())
+	}
+
+	html, err := template.New("htmltpl").Parse(string(template_file),)
+
+	if err != nil {
+		fmt.Printf(err.Error())
+	}
+
+	base_img := base64.StdEncoding.EncodeToString(img)
+
+	//a := fmt.Sprintf(info.MacAddr)
+
+	tmpl_err := message.SetBodyHTMLTemplate(html, HtmlProps{
+		txt: "hello",
+		logo: base_img,
+	})
    
+	//message.AttachFile("./assets/logo.png")
+
+	if tmpl_err != nil {
+		fmt.Printf(err.Error())
+	}
+
+
 	client, _ := mail.NewClient(mail_server,
 		mail.WithSMTPAuth(mail.SMTPAuthPlain), mail.WithTLSPortPolicy(mail.TLSMandatory),
 		mail.WithUsername(user), mail.WithPassword(os.Getenv("EMAIL_PASS")),
@@ -60,4 +101,5 @@ func Send(info *convert.QuedaPayload)  {
     if err := client.DialAndSend(message); err != nil {
 		log.Fatalf("failed to send mail: %s", err)
 	}	
+	
 }

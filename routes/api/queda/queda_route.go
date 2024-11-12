@@ -30,6 +30,6 @@ func POST(ctx *gin.Context) {
 	queue.Send(json.MacAddr, json.Date, json.Itensity)
 
 	ctx.JSON(http.StatusOK, gin.H{
-		"lorem": "ipsum",
+		"msg": "mensagem encaminhada pra fila",
 	})
 }

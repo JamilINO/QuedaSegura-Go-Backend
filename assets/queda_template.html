@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alerta de Queda - QuedaSegura</title>
+    <style>
+        /* Reset de estilos */
+        body, p, h1, h2, h3, h4, h5, h6 {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333333;
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            animation: fadeIn 1s ease-in;
+        }
+
+        /* Animação de fade-in */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Animação de fade-out */
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        /* Estilo do contêiner do email */
+        .email-container {
+            width: 100%;
+            max-width: 600px;
+            background-color: #ffffff;
+            border: 1px solid #dddddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* Cabeçalho */
+        .email-header {
+            background-color: #001CDB;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+
+        .email-header h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        /* Conteúdo do email */
+        .email-content {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .email-content p {
+            margin-bottom: 15px;
+        }
+
+        .highlight {
+            color: #001CDB;
+            font-weight: bold;
+        }
+
+        /* Rodapé */
+        .email-footer {
+            background-color: #f4f4f4;
+            color: #666666;
+            text-align: center;
+            padding: 15px;
+            font-size: 12px;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        .email-footer a {
+            color: #001CDB;
+            text-decoration: none;
+        }
+
+        .email-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Botão de Acesso */
+        .action-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            background-color: #001CDB;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .action-button:hover {
+            background-color: #0010A0;
+            transform: scale(1.05);
+        }
+
+        /* Responsivo */
+        @media (max-width: 600px) {
+            .email-content, .email-footer {
+                padding: 10px;
+            }
+
+            .email-header h1 {
+                font-size: 20px;
+            }
+
+            .action-button {
+                width: 100%;
+                text-align: center;
+                padding: 12px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Cabeçalho do Email -->
+        <div class="email-header">
+            <h1>⚠️ Alerta de Queda ⚠️</h1>
+        </div>
+
+        <!-- Conteúdo do Email -->
+        <div class="email-content">
+            <p>Atenção <span class="highlight">[Nome do destinatário]</span>,</p>
+            <p>Este é um alerta importante enviado pelo nosso sistema de monitoramento de quedas.</p>
+            <p>Detectamos uma possível queda de <span class="highlight">[Nome do idoso]</span> às <span class="highlight">[horário da queda]</span>.</p>
+            <p>Recomendamos que você entre em contato imediatamente para verificar a segurança de <span class="highlight">[Nome do idoso]</span>. Se necessário, entre em contato com os serviços de emergência locais para garantir que a assistência médica seja fornecida prontamente.</p>
+            <p>Para mais informações e atualizações, você pode acessar nosso site no botão abaixo:</p>
+            <a href="https://www.quedasegura.com.br" class="action-button">Acessar Site</a>
+            <p>Se tiver alguma dúvida ou precisar de ajuda, nossa equipe de suporte está disponível para ajudar.</p>
+            <p>Atenciosamente,</p>
+			<img src="data:image/png;base64,{{ .logo }}" alt="Logo QuedaSegura" style="width: 150px; margin-top: 10px;">
+        </div>
+
+        <!-- Rodapé do Email -->
+        <div class="email-footer">
+            <p>&copy; QuedaSegura 2024. Todos os direitos reservados.</p>
+            <p><a href="#">Cancelar inscrição</a></p>
+        </div>
+    </div>
+</body>
+</html>
