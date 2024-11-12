@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -15,6 +16,7 @@ import (
 	"quedasegura.com/m/v2/routes/api/contacts"
 	"quedasegura.com/m/v2/routes/api/devices"
 	Queda "quedasegura.com/m/v2/routes/api/queda"
+	"quedasegura.com/m/v2/routes/middleware"
 
 	"quedasegura.com/m/v2/routes/frontend/home"
 	SignIn "quedasegura.com/m/v2/routes/frontend/sign_in"
@@ -52,6 +54,9 @@ INNER JOIN Contacts ON Users.id = Contacts.foreign_id
     server.LoadHTMLGlob("./views/*")
     server.Static("/assets", "./assets")
 
+    server.NoRoute(func(ctx *gin.Context) {
+        middleware.Error(ctx, fmt.Errorf("desculpe, página não encontrada"), "A página solicitada não pôde ser encontrada", http.StatusNotFound)
+    })
 
     /* -- GET -- */
     

@@ -5,7 +5,6 @@ import (
 )
 
 func Error(ctx *gin.Context, err error, msg string, status int){
-
 	ctx.HTML(status, "error.html" ,gin.H{
 		"err": msg,
 		"status": status,

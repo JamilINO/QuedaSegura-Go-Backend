@@ -25,38 +25,28 @@ func Send(info *convert.QuedaPayload)  {
 		log.Fatalf("failed to set From address: %s", err)
 	}
 
-	var id string
 	var email string
 
-	rows, err := db.Postgres.Query(context.Background(), `
+	rows, db_err := db.Postgres.Query(context.Background(), `
 	SELECT Contacts.email FROM Devices 
 	INNER JOIN Users ON Users.id = Devices.foreign_id 
 	INNER JOIN Contacts ON Users.id = Contacts.foreign_id
 	WHERE mac_adress = $1;
 	`, info.MacAddr)
 
-	if err != nil {
-		fmt.Printf(err.Error())
-	}
-
-	var contact_str = ""
 	for rows.Next() {
-		rows.Scan(&id, &email)
-		fmt.Printf("\n\n\n\n%s\n\n\n\n", id)
+		rows.Scan(&email)
+		if err := message.AddTo(email); err != nil {
+			log.Fatalf("failed to set To address: %s", err)
+		}
 	}
 
-	fmt.Printf(contact_str)
-
-	if err != nil {
+	if db_err != nil {
 		fmt.Errorf("Erro no DB worker")
 		return
 	}
 
-
-
-	if err := message.ToFromString(contact_str); err != nil {
-		log.Fatalf("failed to set To address: %s", err)
-	}
+	//fmt.Print("\n\n\nEntered Here\n\n\n")
 
     message.Subject("This is my first mail with go-mail!")
 	str := fmt.Sprintf("MacAddr: %s\nDate: %s\nIntensity: %.2f", info.MacAddr, info.Time.AsTime(), info.Intensity)

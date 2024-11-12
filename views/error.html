@@ -1,15 +1,153 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Página Não Encontrada</title>
+    <style>
+        /* Reset de estilos */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Estilos da Navbar */
+        .navbar {
+            width: 100%;
+            background-color: #1c1c1c; /* Cor escura para combinar com o tema */
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .logo {
+            font-size: 1.2rem;
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            transition: transform 0.3s, filter 0.3s;
+        }
+
+        .navbar .logo:hover {
+            transform: scale(1.05);
+            filter: brightness(1.2);
+        }
+
+        .navbar .menu {
+            list-style: none;
+            display: flex;
+        }
+
+        .navbar .menu li {
+            margin-left: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar .menu li:hover {
+            transform: scale(1.1); /* Zoom no hover */
+        }
+
+        .navbar .menu li a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .navbar .menu li a:hover {
+            color: white;
+        }
+
+        /* Configuração de página */
+        body {
+            background: #f0f0f0;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-top: 60px; /* Espaço extra para compensar a navbar fixa */
+            padding-bottom: 40px; /* Espaço extra para o rodapé */
+        }
+
+        /* Estilos de corpo */
+        body {
+            font-family: Arial, sans-serif;
+            color: #666666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+
+        /* Estilo do contêiner principal */
+        .container {
+            max-width: 600px;
+            width: 100%;
+            padding: 20px;
+        }
+
+        /* Estilo do código 404 */
+        .code {
+            font-size: 120px;
+            color: #e0e0e0;
+            font-weight: bold;
+        }
+
+        /* Estilo da mensagem */
+        .message {
+            font-size: 24px;
+            color: #666666;
+            margin-top: 10px;
+            font-weight: normal;
+        }
+
+        /* Estilo da sub-mensagem */
+        .sub-message {
+            font-size: 16px;
+            color: #999999;
+            margin-top: 5px;
+        }
+
+        /* Footer */
+        footer {
+            width: 100%;
+            background-color: #1c1c1c;
+            color: #ddd;
+            padding: 10px 0;
+            text-align: center;
+            font-size: 0.9rem;
+            position: fixed;
+            bottom: 0;
+        }
+    </style>
 </head>
 <body>
-    <h1>Erro {{ .err }}</h1>
-    <h4>Status {{ .status }}</h4>
 
-    <p>Descrição {{ .description }}</p>
+    <nav class="navbar">
+        <a href="#" class="logo">QuedaSegura</a>
+        <ul class="menu">
+            <li><a href="/">Home</a></li>
+            <li><a href="/sign_in">Login </a></li>
+            <li><a href="/sign_up">Cadastro</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="code">{{ .status }}</div>
+        <div class="message">{{ .err }}</div>
+        <div class="sub-message">{{ .description }}</div>
+    </div>
+
+    <footer>Copyright &copy; QuedaSegura 2024. Todos os direitos reservados.</footer>
 
 </body>
 </html>
