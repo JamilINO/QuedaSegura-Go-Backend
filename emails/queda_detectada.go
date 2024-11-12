@@ -80,7 +80,7 @@ func Send(info *convert.QuedaPayload)  {
 
 	fmt.Printf(string(img))
 
-	tmpl_err := message.SetBodyHTMLTemplate(html, info)
+	tmpl_err := message.SetBodyHTMLTemplate(html, nil)
    
 	//message.AttachFile("./assets/logo.png")
 
