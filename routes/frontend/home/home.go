@@ -98,7 +98,7 @@ func GET(ctx *gin.Context)  {
 	}
 
 	ctx.HTML(http.StatusOK, "home.html", gin.H{
-		"user": user,
+		"user": real_name,
 		"contacts": contact_arr,
 		"devices": devices_arr,
 		"date": date,
