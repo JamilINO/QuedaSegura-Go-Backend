@@ -92,3 +92,8 @@ SELECT Contacts.email FROM Devices
 INNER JOIN Users ON Users.id = Devices.foreign_id 
 INNER JOIN Contacts ON Users.id = Contacts.foreign_id
 WHERE mac_adress='9e:9d:17:56:60:b9';
+
+
+SELECT Users.real_name FROM Users
+INNER JOIN Devices ON Users.id = Devices.foreign_id 
+WHERE mac_adress='aa:aa:aa:aa:aa:aa' LIMIT 1;

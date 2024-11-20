@@ -1,77 +1,279 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>QuedaSegura - Home</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #000000;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-bottom: 3px solid #001CDB;
+        }
+
+        .navbar .logo {
+            font-size: 1.4rem;
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .navbar .menu {
+            list-style: none;
+            display: flex;
+        }
+
+        .navbar .menu li {
+            margin-left: 25px;
+        }
+
+        .navbar .menu li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .navbar .menu li a:hover {
+            transform: scale(1.1);
+            color: #e6e6e6;
+        }
+
+        .logo-container {
+            width: 90%;
+            max-width: 600px;
+            height: 150px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            margin: 80px 0 20px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-container img {
+            width: 250px;
+            height: 100px;
+            object-fit: contain;
+        }
+
+        .content-box {
+            width: 90%;
+            max-width: 600px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            text-align: center;
+            margin-top: -10px;
+            border-left: 5px solid #FFDE59;
+        }
+
+        .content-box h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 20px;
+        }
+
+        .content-box form {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .content-box form label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+
+        .content-box input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f7f7f7;
+            transition: border-color 0.3s ease, background-color 0.3s ease;
+        }
+
+        .content-box input::placeholder {
+            color: #888;
+        }
+
+        .content-box input:focus {
+            border-color: #000000;
+            background-color: #ffffff;
+            outline: none;
+            box-shadow: 0 4px 12px rgba(135, 206, 235, 0.2);
+        }
+
+        .content-box button {
+            width: 100%;
+            background: #000000;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 15px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 5px;
+            transition: transform 0.3s ease, background 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .content-box button:hover {
+            background: #333333;
+            transform: scale(1.05);
+        }
+
+        .content-box .btn-gray {
+            background: #888888;
+            color: white;
+        }
+
+        .content-box .btn-gray:hover {
+            background: #666666;
+        }
+
+        .tooltip {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #333;
+            color: white;
+            padding: 8px 10px;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            width: 90%;
+            text-align: left;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .content-box form:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #000000;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+            font-size: 0.9rem;
+            border-top: 3px solid #FFDE59;
+        }
+    </style>
 </head>
 <body>
-    <h1>Bem-vindo {{ .user }}</h1>
+    <nav class="navbar">
+        <a href="#" class="logo">QuedaSegura</a>
+        <ul class="menu">
+            <li><a href="/">Home</a></li>
+            <li><a href="/sign_in">Login </a></li>
+            <li><a href="/sign_in">Cadastro </a></li>
+        </ul>
+    </nav>
 
+    <div class="logo-container">
+        <img src="/assets/logo.png" alt="Logo do QuedaSegura">
+    </div>
 
-    <h3>Novo email</h3>
+    <div class="content-box">
+        <h2>Bem-vindo, {{ .user }}</h2>
 
-    <form action="/api/new_contact" method="post">
-        <input type="email" name="email" id="email" required placeholder=" ">
-        <label for="email">Novo E-mail de Contato: </label>
+        <form action="/api/new_contact" method="post">
+            <span class="tooltip">Insira um e-mail válido para receber alertas sobre quedas.</span>
+            <label for="email">Novo e-mail para contato:</label>
+            <input type="email" name="email" id="email" required placeholder="Digite o e-mail">
+            <button type="submit">Cadastrar</button>
+        </form>
 
-        <button type="submit" class="btn">Cadastrar</button>
-    </form>
-
-    <div></div>
-
-    <div>
         {{ range .contacts }}
-            <div>
-                <strong>{{ .Id }}</strong>
+        <form action="/api/update_contact" method="post">
+            <input type="hidden" name="contact_id" value="{{ .Id }}" required>
+            <span class="tooltip">Altere o e-mail registrado que será usado para envio de notificações.</span>
+            <label for="email">Alterar Contato:</label>
+            <input type="text" name="email" value="{{ .Email }}" required>
+            <button type="submit">Alterar</button>
+        </form>
+        <form action="/api/delete_contact" method="post">
+            <input type="hidden" name="contact_id" value="{{ .Id }}" required>
+            <input type="submit" class="btn-gray" value="Excluir">
+        </form>
 
-                <form action="/api/update_contact" method="post">
-                    <input type="hidden" name="contact_id" value="{{ .Id }}" required>
-                    <input type="text" name="email" value="{{ .Email }}" required>
-                    <input type="submit" value="Alter Contact">
-                </form>
+        {{ end }}
 
-                <form action="/api/delete_contact" method="post">
-                    <input type="hidden" name="contact_id" value="{{ .Id }}" required>
-                    <input type="submit" value="Delete Contact">
-                </form>
-            </div>
+        <hr>
+
+        <div style="margin: 1rem;">
+
+        </div>
+
+        <form action="/api/new_device" method="post">
+            <span class="tooltip">Adicione o MAC Address do dispositivo para associá-lo ao sistema.</span>
+            <label for="device">Novo Dispositivo:</label>
+            <input type="text" name="mac_addr" id="mac_addr" required placeholder="Digite o MAC Address">
+            <button type="submit">Cadastrar</button>
+        </form>
+
+        {{ range .devices }}
+        <form action="/api/update_device" method="post">
+            <input type="hidden" name="device_id" value="{{ .Id }}" required>
+            <span class="tooltip">Atualize o MAC Address do dispositivo registrado, caso tenha errado ou queira substituir.</span>
+            <label for="mac_addr">Alterar Dispositivo:</label>
+            <input type="text" name="mac_addr" value="{{ .MacAddr }}" required>
+            <button type="submit">Alterar</button>
+        </form>
+        <form action="/api/delete_device" method="post">
+            <input type="hidden" name="device_id" value="{{ .Id }}" required>
+            <button type="submit" class="btn-gray">Excluir</button>
+        </form>
+
         {{ end }}
     </div>
 
-
-    <hr>
-
-
-    <form action="/api/new_device" method="post">
-        <input type="mac_addr" name="mac_addr" id="mac_addr" required placeholder=" ">
-        <label for="device">Novo Dispositivo: </label>
-
-        <button type="submit" class="btn">Cadastrar</button>
-    </form>
-
-    <div>
-    {{ range .devices }}
-        <div>
-            <strong>{{ .Id }}</strong>
-            <p>{{ .MacAddr }}</p>
-
-            <form action="/api/update_device" method="post">
-                <input type="hidden" name="device_id" value="{{ .Id }}" required>
-                <input type="text" name="mac_addr" value="{{ .MacAddr }}" required>
-                <input type="submit" value="Alter device">
-            </form>
-
-            <form action="/api/delete_device" method="post">
-                <input type="hidden" name="device_id" value="{{ .Id }}" required>
-                <input type="submit" value="Delete device">
-            </form>
-        </div>
-    {{ end }}
-    </div>
-
-
-
-
+    <footer>
+        Copyright © QuedaSegura 2024. Todos os direitos reservados.
+    </footer>
 </body>
 </html>

@@ -88,8 +88,17 @@ func GET(ctx *gin.Context)  {
 
 	/* -- Encerra READ Devices -- */
 
+	var real_name string
+	err = db.Postgres.QueryRow(context.Background(), `
+	SELECT real_name FROM users WHERE id = $1 LIMIT 1;
+	`, user).Scan(&real_name)
+
+	if err != nil{
+		fmt.Printf(err.Error())
+	}
+
 	ctx.HTML(http.StatusOK, "home.html", gin.H{
-		"user": user,
+		"user": real_name,
 		"contacts": contact_arr,
 		"devices": devices_arr,
 		"date": date,

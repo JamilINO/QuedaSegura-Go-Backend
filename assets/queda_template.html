@@ -146,15 +146,15 @@
 
         <!-- Conteúdo do Email -->
         <div class="email-content">
-            <p>Atenção <span class="highlight">[Nome do destinatário]</span>,</p>
+            <p>Atenção <span class="highlight">{{ .EmailList }}</span></p>
             <p>Este é um alerta importante enviado pelo nosso sistema de monitoramento de quedas.</p>
-            <p>Detectamos uma possível queda de <span class="highlight">[Nome do idoso]</span> às <span class="highlight">[horário da queda]</span>.</p>
-            <p>Recomendamos que você entre em contato imediatamente para verificar a segurança de <span class="highlight">[Nome do idoso]</span>. Se necessário, entre em contato com os serviços de emergência locais para garantir que a assistência médica seja fornecida prontamente.</p>
+            <p>Detectamos uma possível queda vinda de <span class="highlight">{{ .Name }}</span> no dispositivo <span class="highlight">{{ .MacAddr }}</span> às <span class="highlight">{{ .Time }}</span> no dia <span class="highlight">{{ .Date }}</span>.</p>
+            <p>Recomendamos que você entre em contato imediatamente para verificar a segurança de <span class="highlight">{{ .Name }}</span>. Se necessário, entre em contato com os serviços de emergência locais para garantir que a assistência médica seja fornecida prontamente.</p>
             <p>Para mais informações e atualizações, você pode acessar nosso site no botão abaixo:</p>
-            <a href="https://www.quedasegura.com.br" class="action-button">Acessar Site</a>
+            <a href="{{ .Url }}" class="action-button">Acessar Site</a>
             <p>Se tiver alguma dúvida ou precisar de ajuda, nossa equipe de suporte está disponível para ajudar.</p>
             <p>Atenciosamente,</p>
-			<img src="data:image/png;base64,{{ .logo }}" alt="Logo QuedaSegura" style="width: 150px; margin-top: 10px;">
+			<img src="data:image/png;base64,{{ .Logo }}" alt="Logo QuedaSegura" style="width: 150px; margin-top: 10px;">
         </div>
 
         <!-- Rodapé do Email -->
